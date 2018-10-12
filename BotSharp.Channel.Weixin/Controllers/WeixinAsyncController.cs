@@ -19,6 +19,7 @@ namespace BotSharp.Channel.Weixin.Controllers
     /// 为了方便演示，此Controller中没有加入多余的日志记录等示例，保持了最简单的Controller写法。日志等其他操作可以参考WeixinController.cs。
     /// 提示：异步Controller并不是在任何情况下都能提升效率（响应时间），当请求量非常小的时候反而会增加一定的开销。
     /// </summary>
+    [Route("weixin")]
     public class WeixinAsyncController : ControllerBase
     {
         public static readonly string Token = "";
@@ -26,11 +27,6 @@ namespace BotSharp.Channel.Weixin.Controllers
         public static readonly string AppId = "";
 
         readonly Func<string> _getRandomFileName = () => DateTime.Now.ToString("yyyyMMdd-HHmmss") + "_Async_" + Guid.NewGuid().ToString("n").Substring(0, 6);
-
-
-        public WeixinAsyncController()
-        {
-        }
 
 
         [HttpGet]
@@ -132,33 +128,6 @@ namespace BotSharp.Channel.Weixin.Controllers
             MessageHandler = messageHandler;//开放出MessageHandler是为了做单元测试，实际使用过程中不需要
 
             return new FixWeixinBugWeixinResult(messageHandler);
-        }
-
-        /// <summary>
-        /// 为测试并发性能而建
-        /// </summary>
-        /// <returns></returns>
-        public Task<ActionResult> ForTest()
-        {
-            //异步并发测试（提供给单元测试使用）
-            return Task.Factory.StartNew<ActionResult>(() =>
-            {
-                DateTime begin = DateTime.Now;
-                int t1, t2, t3;
-                System.Threading.ThreadPool.GetAvailableThreads(out t1, out t3);
-                System.Threading.ThreadPool.GetMaxThreads(out t2, out t3);
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.1));
-                DateTime end = DateTime.Now;
-                var thread = System.Threading.Thread.CurrentThread;
-                var result = string.Format("TId:{0}\tApp:{1}\tBegin:{2:mm:ss,ffff}\tEnd:{3:mm:ss,ffff}\tTPool：{4}",
-                    thread.ManagedThreadId,
-                    HttpContext.GetHashCode(),
-                    begin,
-                    end,
-                    t2 - t1
-                    );
-                return Content(result);
-            });
         }
     }
 }
