@@ -10,7 +10,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 #endif
 
-namespace Senparc.Weixin.MP.Sample.CommonService.Utilities
+namespace BotSharp.Channel.Weixin
 {
     public static class Server
     {

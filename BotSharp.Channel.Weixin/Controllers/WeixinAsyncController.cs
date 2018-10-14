@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BotSharp.Channel.Weixin.Models;
+using Microsoft.AspNetCore.Mvc;
 using Senparc.CO2NET;
 using Senparc.CO2NET.HttpUtility;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.Entities.Request;
 using Senparc.Weixin.MP.MvcExtension;
-using Senparc.Weixin.MP.Sample.CommonService.CustomMessageHandler;
-using Senparc.Weixin.MP.Sample.CommonService.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +29,6 @@ namespace BotSharp.Channel.Weixin.Controllers
 
 
         [HttpGet]
-        [ActionName("Index")]
         public Task<ActionResult> Get(string signature, string timestamp, string nonce, string echostr)
         {
             return Task.Factory.StartNew(() =>
@@ -53,7 +51,6 @@ namespace BotSharp.Channel.Weixin.Controllers
         /// 最简化的处理流程
         /// </summary>
         [HttpPost]
-        [ActionName("Index")]
         public async Task<ActionResult> Post(PostModel postModel)
         {
             if (!CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, Token))

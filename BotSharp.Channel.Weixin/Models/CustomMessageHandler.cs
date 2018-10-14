@@ -34,6 +34,8 @@ using Senparc.NeuChar.Entities.Request;
 using Senparc.CO2NET.Helpers;
 using Senparc.NeuChar.Helpers;
 using Senparc.NeuChar.Entities;
+using Senparc.Weixin;
+using Senparc.Weixin.MP;
 
 #if NET45
 using System.Web;
@@ -42,10 +44,9 @@ using System.Web.Configuration;
 using Senparc.Weixin.MP.Sample.CommonService.Utilities;
 #else
 using Microsoft.AspNetCore.Http;
-using Senparc.Weixin.MP.Sample.CommonService.Utilities;
 #endif
 
-namespace Senparc.Weixin.MP.Sample.CommonService.CustomMessageHandler
+namespace BotSharp.Channel.Weixin.Models
 {
     /// <summary>
     /// 自定义MessageHandler
@@ -330,7 +331,7 @@ namespace Senparc.Weixin.MP.Sample.CommonService.CustomMessageHandler
                 .Keyword("OPENID", () =>
                 {
                     var openId = requestMessage.FromUserName;//获取OpenId
-                    var userInfo = AdvancedAPIs.UserApi.Info(appId, openId, Language.zh_CN);
+                    var userInfo = Senparc.Weixin.MP.AdvancedAPIs.UserApi.Info(appId, openId, Language.zh_CN);
 
                     defaultResponseMessage.Content = string.Format(
                         "您的OpenID为：{0}\r\n昵称：{1}\r\n性别：{2}\r\n地区（国家/省/市）：{3}/{4}/{5}\r\n关注时间：{6}\r\n关注状态：{7}",
@@ -479,7 +480,7 @@ namespace Senparc.Weixin.MP.Sample.CommonService.CustomMessageHandler
             var responseMessage = CreateResponseMessage<ResponseMessageMusic>();
             //上传缩略图
             //var accessToken = Containers.AccessTokenContainer.TryGetAccessToken(appId, appSecret);
-            var uploadResult = AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, UploadMediaFileType.image,
+            var uploadResult = Senparc.Weixin.MP.AdvancedAPIs.MediaApi.UploadTemporaryMedia(appId, UploadMediaFileType.image,
                                                          Server.GetMapPath("~/Images/Logo.jpg"));
 
             //设置音乐信息
