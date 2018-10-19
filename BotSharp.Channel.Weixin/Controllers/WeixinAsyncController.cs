@@ -1,5 +1,10 @@
 ﻿using BotSharp.Channel.Weixin.Models;
+using BotSharp.Platform.Abstraction;
+using BotSharp.Platform.Dialogflow;
+using BotSharp.Platform.Dialogflow.Models;
+using BotSharp.Platform.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Senparc.CO2NET;
 using Senparc.CO2NET.HttpUtility;
 using Senparc.Weixin.MP;
@@ -21,25 +26,30 @@ namespace BotSharp.Channel.Weixin.Controllers
     [Route("weixin")]
     public class WeixinAsyncController : ControllerBase
     {
-        public static readonly string Token = "";
-        public static readonly string EncodingAESKey = "";
-        public static readonly string AppId = "";
-
         readonly Func<string> _getRandomFileName = () => DateTime.Now.ToString("yyyyMMdd-HHmmss") + "_Async_" + Guid.NewGuid().ToString("n").Substring(0, 6);
 
+        readonly IConfiguration config;
+        private IPlatformBuilder<AgentModel> builder;
+
+        public WeixinAsyncController(IPlatformBuilder<AgentModel> platform, IConfiguration configuration)
+        {
+            config = configuration;
+            builder = platform;
+        }
 
         [HttpGet]
         public Task<ActionResult> Get(string signature, string timestamp, string nonce, string echostr)
         {
+            var token = config.GetValue<string>("weixinChannel:token");
             return Task.Factory.StartNew(() =>
             {
-                if (CheckSignature.Check(signature, timestamp, nonce, Token))
+                if (CheckSignature.Check(signature, timestamp, nonce, token))
                 {
                     return echostr; //返回随机字符串则表示验证通过
                 }
                 else
                 {
-                    return "failed:" + signature + "," + Senparc.Weixin.MP.CheckSignature.GetSignature(timestamp, nonce, Token) + "。" +
+                    return "failed:" + signature + "," + Senparc.Weixin.MP.CheckSignature.GetSignature(timestamp, nonce, token) + "。" +
                         "如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。";
                 }
             }).ContinueWith<ActionResult>(task => Content(task.Result));
@@ -53,16 +63,18 @@ namespace BotSharp.Channel.Weixin.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(PostModel postModel)
         {
-            if (!CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, Token))
+            var token = config.GetValue<string>("weixinChannel:token");
+
+            if (!CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, token))
             {
                 return new WeixinResult("参数错误！");
             }
 
-            postModel.Token = Token;
-            postModel.EncodingAESKey = EncodingAESKey; //根据自己后台的设置保持一致
-            postModel.AppId = AppId; //根据自己后台的设置保持一致
+            postModel.Token = token;
+            postModel.EncodingAESKey = config.GetValue<string>("weixinChannel:encodingAESKey"); 
+            postModel.AppId = config.GetValue<string>("weixinChannel:appId"); 
 
-            var messageHandler = new CustomMessageHandler(Request.GetRequestMemoryStream(), postModel, 10);
+            var messageHandler = new CustomMessageHandler(builder, Request.GetRequestMemoryStream(), postModel, 10);
 
             messageHandler.DefaultMessageHandlerAsyncEvent = Senparc.NeuChar.MessageHandlers.DefaultMessageHandlerAsyncEvent.SelfSynicMethod;//没有重写的异步方法将默认尝试调用同步方法中的代码（为了偷懒）
 
