@@ -38,7 +38,6 @@ using Senparc.Weixin;
 using Senparc.Weixin.MP;
 using BotSharp.Platform.Models.AiRequest;
 using BotSharp.Platform.Abstraction;
-using BotSharp.Platform.Models;
 using BotSharp.Platform.Dialogflow.Models;
 
 #if NET45
@@ -117,11 +116,6 @@ namespace BotSharp.Channel.Weixin.Models
             };
         }
 
-        public CustomMessageHandler(RequestMessageBase requestMessage)
-            : base(requestMessage)
-        {
-        }
-
         public override void OnExecuting()
         {
             //测试MessageContext.StorageData
@@ -153,14 +147,14 @@ namespace BotSharp.Channel.Weixin.Models
                     var result = new StringBuilder();
 
                     // send text to BotSharp platform emulator
-                    var aIResponse = nluPlatform.TextRequest(new AiRequest
+                    var aIResponse = nluPlatform.TextRequest<AIResponseResult>(new AiRequest
                     {
                         Text = requestMessage.Content,
-                        AgentId = "6a9fd374-c43d-447a-97f2-f37540d0c725", // replace to your chabot's id
+                        AgentId = "60bee6f9-ba58-4fe8-8b95-94af69d6fd41", // replace to your chabot's id
                         SessionId = requestMessage.FromUserName
                     });
 
-                    result.AppendFormat("{0}\r\n\r\n", aIResponse.Result.Speech);
+                    result.AppendFormat("{0}\r\n\r\n", aIResponse.Result.Fulfillment.Speech);
 
                     defaultResponseMessage.Content = result.ToString();
                     return defaultResponseMessage;
