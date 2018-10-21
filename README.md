@@ -13,24 +13,13 @@ PM> Install-Package BotSharp.Platform.Dialogflow
 PM> Install-Package BotSharp.Channel.Weixin
 ```
 
-Check app.json to load Weixin and Dialogflow modules
+Check app.json to use DialogflowAi
 ```
 {
   "version": "0.1.0",
   "assemblies": "BotSharp.Core",
 
-  "platformModuleName": "DialogflowAi",
-
-  "modules": [
-    {
-      "Name": "DialogflowAi",
-      "Type": "BotSharp.Platform.Dialogflow"
-    },
-    {
-      "Name": "WeixinChannel",
-      "Type": "BotSharp.Channel.Weixin"
-    }
-  ]
+  "platformModuleName": "DialogflowAi"
 }
 ```
 
