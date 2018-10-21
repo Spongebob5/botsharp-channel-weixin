@@ -45,4 +45,4 @@ Update channels.weixin.json to set the corresponding KEY
 }
 ```
 
-Refere (BotSharp docs)[https://botsharp.readthedocs.io] to design your chatbot.
+Refere [BotSharp docs](https://botsharp.readthedocs.io) to design your chatbot.
