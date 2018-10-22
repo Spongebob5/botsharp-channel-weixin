@@ -1,16 +1,15 @@
 # botsharp-channel-weixin
 A channel module of BotSharp for Tencent Weixin
 
-### How to integrate with Wechat 
+### How to install through NuGet
 
 ```
-git clone https://github.com/Oceania2018/BotSharp
-```
-
-Install packages for BotSharp.WebHost project
-```
-PM> Install-Package BotSharp.Platform.Dialogflow
 PM> Install-Package BotSharp.Channel.Weixin
+```
+
+### How to run locally
+```
+git clone https://github.com/Oceania2018/botsharp-channel-weixin
 ```
 
 Check app.json to use DialogflowAi
@@ -29,9 +28,20 @@ Update channels.weixin.json to set the corresponding KEY
   "weixinChannel": {
     "token": "botsharp",
     "encodingAESKey": "",
-    "appId": ""
+    "appId": "",
+    "agentId": "60bee6f9-ba58-4fe8-8b95-94af69d6fd41"
   }
 }
 ```
 
-Refere [BotSharp docs](https://botsharp.readthedocs.io) to design your chatbot.
+F5 run BotSharp.WebHost
+
+Access http://localhost:3112
+
+Import demo (Spotify.zip) agent located at App_Data
+
+Train agent (id: 60bee6f9-ba58-4fe8-8b95-94af69d6fd41)
+
+Or refer [BotSharp docs](https://botsharp.readthedocs.io) to design your new chatbot.
+
+Setup Wechat webhood from https://mp.weixin.qq.com/.
