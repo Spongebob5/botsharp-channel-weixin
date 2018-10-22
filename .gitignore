@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/BotSharp.WebHost/App_Data/AgentStorage
+/BotSharp.WebHost/App_Data/Projects

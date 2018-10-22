@@ -39,6 +39,7 @@ using Senparc.Weixin.MP;
 using BotSharp.Platform.Models.AiRequest;
 using BotSharp.Platform.Abstraction;
 using BotSharp.Platform.Dialogflow.Models;
+using Microsoft.Extensions.Configuration;
 
 #if NET45
 using System.Web;
@@ -89,11 +90,13 @@ namespace BotSharp.Channel.Weixin.Models
         public static Dictionary<string, string> TemplateMessageCollection = new Dictionary<string, string>();
 
         private IPlatformBuilder<AgentModel> nluPlatform = null;
+        private readonly IConfiguration config;
 
-        public CustomMessageHandler(IPlatformBuilder<AgentModel> nluPlatform, Stream inputStream, PostModel postModel, int maxRecordCount = 0)
+        public CustomMessageHandler(IPlatformBuilder<AgentModel> nluPlatform, IConfiguration configuration, Stream inputStream, PostModel postModel, int maxRecordCount = 0)
             : base(inputStream, postModel, maxRecordCount)
         {
             this.nluPlatform = nluPlatform;
+            this.config = configuration;
 
             //这里设置仅用于测试，实际开发可以在外部更全局的地方设置，
             //比如MessageHandler<MessageContext>.GlobalGlobalMessageContext.ExpireMinutes = 3。
@@ -150,7 +153,7 @@ namespace BotSharp.Channel.Weixin.Models
                     var aIResponse = nluPlatform.TextRequest<AIResponseResult>(new AiRequest
                     {
                         Text = requestMessage.Content,
-                        AgentId = "60bee6f9-ba58-4fe8-8b95-94af69d6fd41", // replace to your chabot's id
+                        AgentId = config.GetValue<string>("weixinChannel:agentId"),
                         SessionId = requestMessage.FromUserName
                     });
 

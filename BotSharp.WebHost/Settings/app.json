@@ -1,0 +1,25 @@
+﻿{
+  "version": "0.1.0",
+  "assemblies": "BotSharp.Core",
+
+  "platformModuleName": "DialogflowAi",
+
+  "modules": [
+    {
+      "Name": "DialogflowAi",
+      "Type": "BotSharp.Platform.Dialogflow"
+    },
+    {
+      "Name": "WeixinChannel",
+      "Type": "BotSharp.Channel.Weixin"
+    }/*,
+    {
+      "Name": "RasaAi",
+      "Type": "BotSharp.Platform.Rasa",
+    },
+    {
+      "Name": "ArticulateAi",
+      "Type": "BotSharp.Platform.Articulate",
+    }*/
+  ]
+}

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="App_Data\AgentStorage\**" />
+    <Compile Remove="App_Data\Projects\**" />
+    <Content Remove="App_Data\AgentStorage\**" />
+    <Content Remove="App_Data\Projects\**" />
+    <EmbeddedResource Remove="App_Data\AgentStorage\**" />
+    <EmbeddedResource Remove="App_Data\Projects\**" />
+    <None Remove="App_Data\AgentStorage\**" />
+    <None Remove="App_Data\Projects\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BotSharp.Channel.Weixin\BotSharp.Channel.Weixin.csproj" />
+  </ItemGroup>
+
+</Project>

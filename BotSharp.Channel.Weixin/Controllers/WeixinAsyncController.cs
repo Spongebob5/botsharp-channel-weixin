@@ -74,7 +74,7 @@ namespace BotSharp.Channel.Weixin.Controllers
             postModel.EncodingAESKey = config.GetValue<string>("weixinChannel:encodingAESKey"); 
             postModel.AppId = config.GetValue<string>("weixinChannel:appId"); 
 
-            var messageHandler = new CustomMessageHandler(builder, Request.GetRequestMemoryStream(), postModel, 10);
+            var messageHandler = new CustomMessageHandler(builder, config, Request.GetRequestMemoryStream(), postModel, 10);
 
             messageHandler.DefaultMessageHandlerAsyncEvent = Senparc.NeuChar.MessageHandlers.DefaultMessageHandlerAsyncEvent.SelfSynicMethod;//没有重写的异步方法将默认尝试调用同步方法中的代码（为了偷懒）
 

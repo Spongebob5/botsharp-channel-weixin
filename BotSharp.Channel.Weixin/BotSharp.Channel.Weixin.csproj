@@ -9,9 +9,9 @@
     <PackageProjectUrl>https://github.com/Oceania2018/botsharp-channel-weixin</PackageProjectUrl>
     <Copyright>Apache 2.0</Copyright>
     <PackageTags>botsharp, wechat, wexin, chatbot</PackageTags>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <FileVersion>0.1.0.0</FileVersion>
-    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <FileVersion>0.1.1.0</FileVersion>
+    <Version>0.1.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,8 +19,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BotSharp.Core" Version="1.7.1" />
-    <PackageReference Include="BotSharp.Platform.Dialogflow" Version="0.1.0" />
+    <PackageReference Include="BotSharp.Core" Version="1.7.2" />
+    <PackageReference Include="BotSharp.Platform.Dialogflow" Version="0.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.3" />
     <PackageReference Include="Senparc.Weixin.MP.MVC" Version="7.1.10" />
   </ItemGroup>
